@@ -1,0 +1,42 @@
+.copyButton {
+  background: #334155;
+  border: 1px solid #475569;
+  color: var(--ifm-font-color-base);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.copyButton:hover {
+  background: #475569;
+  border-color: var(--ifm-color-primary);
+}
+
+.copyButton:active {
+  transform: scale(0.98);
+}
+
+.copyButton.copied {
+  background: var(--ifm-color-success);
+  border-color: var(--ifm-color-success);
+  color: white;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.checkmark {
+  font-size: 0.875rem;
+}
+
+.copyIcon {
+  font-size: 0.75rem;
+}

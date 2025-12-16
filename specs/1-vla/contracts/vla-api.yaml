@@ -1,0 +1,540 @@
+# OpenAPI Specification for Vision-Language-Action (VLA) System
+openapi: 3.0.0
+info:
+  title: Vision-Language-Action (VLA) API
+  description: API for voice-to-action conversion and cognitive planning for humanoid robots
+  version: 1.0.0
+
+paths:
+  /voice/process:
+    post:
+      summary: Process a voice command and return an action plan
+      description: Takes voice data or text command and converts it to a robot action plan
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                audio:
+                  type: string
+                  format: binary
+                  description: Audio file containing the voice command
+                text:
+                  type: string
+                  description: Text alternative to audio input
+                user_context:
+                  $ref: '#/components/schemas/UserContext'
+                robot_state:
+                  $ref: '#/components/schemas/RobotState'
+            encoding:
+              audio:
+                contentType: audio/wav, audio/mp3, audio/flac
+      responses:
+        '200':
+          description: Successfully processed voice command and generated action plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionPlan'
+        '400':
+          description: Invalid input or command could not be understood
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /command/plan:
+    post:
+      summary: Generate an action plan from a text command
+      description: Uses LLM to convert natural language command into structured robot actions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - command
+              properties:
+                command:
+                  type: string
+                  description: Natural language command to be processed
+                  example: "Move forward 2 meters and pick up the red object"
+                user_context:
+                  $ref: '#/components/schemas/UserContext'
+                robot_state:
+                  $ref: '#/components/schemas/RobotState'
+                context:
+                  type: string
+                  description: Additional context for the command
+      responses:
+        '200':
+          description: Successfully generated action plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionPlan'
+        '400':
+          description: Command could not be understood or is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /execution/start:
+    post:
+      summary: Start execution of an action plan
+      description: Execute a previously generated action plan on the robot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - plan_id
+              properties:
+                plan_id:
+                  type: string
+                  description: ID of the action plan to execute
+                robot_id:
+                  type: string
+                  description: ID of the robot to execute the plan
+                parameters:
+                  type: object
+                  description: Execution parameters (e.g., timeout, safety limits)
+      responses:
+        '200':
+          description: Execution started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResult'
+        '400':
+          description: Invalid plan or execution parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Action plan or robot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /execution/{execution_id}/status:
+    get:
+      summary: Get status of an ongoing execution
+      description: Retrieve the current status and progress of an action plan execution
+      parameters:
+        - name: execution_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the execution to check
+      responses:
+        '200':
+          description: Execution status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionStatus'
+        '404':
+          description: Execution not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /robot/{robot_id}/state:
+    get:
+      summary: Get current state of a robot
+      description: Retrieve the current state of a humanoid robot
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the robot
+      responses:
+        '200':
+          description: Robot state retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RobotState'
+        '404':
+          description: Robot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    VoiceCommand:
+      type: object
+      required:
+        - id
+        - transcript
+        - timestamp
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the command
+        audio_data:
+          type: string
+          format: byte
+          description: Base64 encoded audio data
+        transcript:
+          type: string
+          description: Text transcription of the spoken command
+        timestamp:
+          type: string
+          format: date-time
+          description: When the command was received
+        confidence:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Confidence score of the speech recognition
+        source:
+          type: string
+          description: Source identifier (e.g., microphone, audio file)
+        status:
+          type: string
+          enum: [RECEIVED, PROCESSING, PLANNING, EXECUTING, COMPLETED, FAILED]
+          description: Current status of the command
+        user_context:
+          $ref: '#/components/schemas/UserContext'
+
+    ActionPlan:
+      type: object
+      required:
+        - id
+        - command_id
+        - actions
+        - created_at
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the action plan
+        command_id:
+          type: string
+          description: Reference to the original VoiceCommand
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RobotAction'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the plan was created
+        estimated_duration:
+          type: number
+          format: float
+          description: Estimated time to complete the plan (in seconds)
+        complexity_score:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: Complexity rating of the plan
+        status:
+          type: string
+          enum: [PLANNED, EXECUTING, COMPLETED, FAILED, CANCELLED]
+          description: Current status of the plan
+        execution_log:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExecutionLogEntry'
+
+    RobotAction:
+      type: object
+      required:
+        - id
+        - action_type
+        - parameters
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the action
+        action_type:
+          type: string
+          enum: [NAVIGATION, MANIPULATION, INTERACTION, SENSING, OTHER]
+          description: Type of action to perform
+        parameters:
+          type: object
+          description: Parameters specific to the action type
+          additionalProperties: true
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Priority level (1-5, with 5 being highest)
+        timeout:
+          type: number
+          format: float
+          description: Maximum time allowed for action completion (seconds)
+        preconditions:
+          type: array
+          items:
+            type: string
+          description: Conditions that must be met before execution
+        postconditions:
+          type: array
+          items:
+            type: string
+          description: Expected state after execution
+        dependencies:
+          type: array
+          items:
+            type: string
+          description: Other actions that must complete first
+
+    ExecutionResult:
+      type: object
+      required:
+        - id
+        - plan_id
+        - status
+        - start_time
+        - end_time
+        - duration
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the execution result
+        plan_id:
+          type: string
+          description: Reference to the executed ActionPlan
+        status:
+          type: string
+          enum: [SUCCESS, PARTIAL_SUCCESS, FAILURE, TIMEOUT]
+          description: Execution status
+        start_time:
+          type: string
+          format: date-time
+          description: When execution began
+        end_time:
+          type: string
+          format: date-time
+          description: When execution completed or failed
+        duration:
+          type: number
+          format: float
+          description: Actual time taken for execution
+        error_message:
+          type: string
+          description: Error description if execution failed
+        feedback_data:
+          type: object
+          description: Any feedback or data collected during execution
+          additionalProperties: true
+        metrics:
+          type: object
+          description: Performance metrics collected during execution
+          additionalProperties: true
+
+    ExecutionStatus:
+      type: object
+      required:
+        - execution_id
+        - status
+        - progress
+      properties:
+        execution_id:
+          type: string
+          description: ID of the execution
+        status:
+          type: string
+          enum: [PENDING, EXECUTING, COMPLETED, FAILED, CANCELLED]
+          description: Current status of the execution
+        progress:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Progress percentage (0.0 to 1.0)
+        current_action:
+          type: string
+          description: ID of the currently executing action
+        elapsed_time:
+          type: number
+          format: float
+          description: Time elapsed since execution started (seconds)
+        estimated_remaining_time:
+          type: number
+          format: float
+          description: Estimated time remaining (seconds)
+
+    ExecutionLogEntry:
+      type: object
+      required:
+        - timestamp
+        - message
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: When the log entry was created
+        message:
+          type: string
+          description: Log message
+        level:
+          type: string
+          enum: [INFO, WARNING, ERROR]
+          description: Log level
+
+    UserContext:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user
+        preferences:
+          type: object
+          description: Dictionary of user preferences
+          additionalProperties: true
+        command_history:
+          type: array
+          items:
+            type: string
+          description: List of previous commands from this user
+        access_level:
+          type: string
+          enum: [USER, ADMIN, GUEST]
+          description: Level of access granted to the user
+        language:
+          type: string
+          description: Preferred language for interaction
+        last_active:
+          type: string
+          format: date-time
+          description: Timestamp of last interaction
+
+    RobotState:
+      type: object
+      required:
+        - id
+        - position
+        - timestamp
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the state record
+        position:
+          $ref: '#/components/schemas/Position'
+        orientation:
+          $ref: '#/components/schemas/Quaternion'
+        battery_level:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 1.0
+          description: Current battery level (0.0-1.0)
+        available_actions:
+          type: array
+          items:
+            type: string
+          description: List of actions the robot can currently perform
+        safety_status:
+          type: string
+          enum: [SAFE, WARNING, DANGER]
+          description: Current safety status
+        balance_status:
+          type: string
+          enum: [STABLE, UNSTABLE, FALLING]
+          description: Balance status for humanoid robots
+        timestamp:
+          type: string
+          format: date-time
+          description: When this state was recorded
+
+    Position:
+      type: object
+      required:
+        - x
+        - y
+        - z
+      properties:
+        x:
+          type: number
+          format: float
+          description: X coordinate
+        y:
+          type: number
+          format: float
+          description: Y coordinate
+        z:
+          type: number
+          format: float
+          description: Z coordinate
+
+    Quaternion:
+      type: object
+      required:
+        - x
+        - y
+        - z
+        - w
+      properties:
+        x:
+          type: number
+          format: float
+        y:
+          type: number
+          format: float
+        z:
+          type: number
+          format: float
+        w:
+          type: number
+          format: float
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: voice
+    description: Voice processing and recognition endpoints
+  - name: planning
+    description: Action planning and cognitive processing
+  - name: execution
+    description: Action plan execution and monitoring
+  - name: robot
+    description: Robot state and control endpoints

@@ -1,0 +1,112 @@
+.heroBanner {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--ifm-background-color) 0%, #1e293b 100%);
+  padding: 4rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem 0;
+    min-height: 40vh;
+  }
+}
+
+.heroContent {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.animatedTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8, #0ea5e9);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.8s ease-out forwards, shine 3s linear infinite;
+}
+
+.animatedSubtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--ifm-font-color-base);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.8s ease-out 0.2s forwards;
+}
+
+.animatedActions {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.8s ease-out 0.4s forwards;
+}
+
+.animatedButton {
+  margin: 0.5rem;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border: none;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out 0.6s forwards;
+}
+
+.animatedButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animatedTitle,
+  .animatedSubtitle,
+  .animatedActions,
+  .animatedButton {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .animatedTitle {
+    -webkit-text-fill-color: revert;
+  }
+}

@@ -1,0 +1,156 @@
+.hamburgerContainer {
+  display: none;
+  position: relative;
+}
+
+@media (max-width: 996px) {
+  .hamburgerContainer {
+    display: block;
+  }
+}
+
+.hamburgerButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburgerButton:focus {
+  outline: none;
+}
+
+.hamburgerLine {
+  width: 100%;
+  height: 2px;
+  background: var(--ifm-font-color-base);
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: center;
+}
+
+.hamburgerButton.open .hamburgerLine:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburgerButton.open .hamburgerLine:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburgerButton.open .hamburgerLine:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.hamburgerMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  background: var(--ifm-background-surface-color);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.hamburgerMenu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ifm-background-surface-color);
+  z-index: -1;
+}
+
+.menuHeader {
+  padding: 1.5rem 1rem 1rem;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  height: 24px;
+  width: auto;
+}
+
+.menuTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--ifm-font-color-base);
+}
+
+.menuNav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  padding: 0;
+  margin: 0.25rem 1rem;
+}
+
+.menuLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: var(--ifm-font-color-base);
+  border-radius: var(--robotic-border-radius);
+  transition: background-color 0.2s ease;
+}
+
+.menuLink:hover {
+  background: #1e293b;
+  text-decoration: none;
+}
+
+.menuLink:active {
+  background: #334155;
+}
+
+/* Overlay to close menu when clicking outside */
+.hamburgerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.hamburgerOverlay.active {
+  display: block;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .hamburgerButton .hamburgerLine {
+    transition: none;
+  }
+
+  .hamburgerMenu {
+    transition: none;
+  }
+}

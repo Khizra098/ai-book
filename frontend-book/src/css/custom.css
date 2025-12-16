@@ -1,0 +1,97 @@
+/**
+ * Robotics-themed light mode with blues, cyans, and metallic accents
+ * Custom CSS for Docusaurus UI Upgrade
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  /* Robotics-themed light mode colors */
+  --ifm-color-primary: #0ea5e9; /* blue-500 */
+  --ifm-color-primary-dark: #0284c7; /* blue-600 */
+  --ifm-color-primary-darker: #0369a1; /* blue-700 */
+  --ifm-color-primary-darkest: #075985; /* blue-800 */
+  --ifm-color-primary-light: #38bdf8; /* blue-400 */
+  --ifm-color-primary-lighter: #7dd3fc; /* blue-300 */
+  --ifm-color-primary-lightest: #bae6fd; /* blue-200 */
+
+  /* Module-specific accent colors */
+  --module-accent-1: #8b5cf6; /* purple */
+  --module-accent-2: #ec4899; /* pink */
+  --module-accent-3: #f59e0b; /* amber */
+  --module-accent-4: #10b981; /* emerald */
+
+  /* Metallic accents */
+  --metallic-gold: #f59e0b;
+  --metallic-silver: #6b7280;
+  --metallic-bronze: #d97706;
+
+  /* Light mode background */
+  --ifm-background-color: #ffffff; /* white */
+  --ifm-background-surface-color: #f8fafc; /* slate-50 */
+
+  /* Text colors */
+  --ifm-font-color-base: #1e293b; /* slate-800 */
+  --ifm-font-color-base-inverse: #ffffff; /* white */
+
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode theme (now as an option) */
+[data-theme='dark'] {
+  --ifm-color-primary: #38bdf8; /* blue-400 */
+  --ifm-background-color: #0f172a; /* slate-900 */
+  --ifm-background-surface-color: #1e293b; /* slate-800 */
+  --ifm-font-color-base: #f1f5f9; /* slate-100 */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Additional theme variables for robotics aesthetic */
+:root {
+  --ifm-color-secondary: #64748b; /* slate-500 */
+  --ifm-color-success: #10b981; /* emerald-500 */
+  --ifm-color-info: #0ea5e9; /* blue-500 */
+  --ifm-color-warning: #f59e0b; /* amber-500 */
+  --ifm-color-danger: #ef4444; /* red-500 */
+
+  /* Robotics-themed custom properties */
+  --robotic-border-radius: 8px;
+  --robotic-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --robotic-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Custom styles for robotics theme */
+.hero--primary {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #1e293b;
+}
+
+.button--primary {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  border: none;
+  color: white;
+}
+
+.button--primary:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+}
+
+/* Light mode specific overrides */
+html[data-theme='light'] {
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f8fafc;
+  --ifm-font-color-base: #1e293b;
+}
+
+html[data-theme='light'] .navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+html[data-theme='light'] .menu {
+  background-color: #f8fafc;
+}
+
+html[data-theme='light'] .theme-doc-sidebar-item-category-level-1 > .menu__list-item > .menu__link {
+  color: #1e293b;
+}
