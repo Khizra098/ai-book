@@ -1,0 +1,138 @@
+/* Chapter Navigation Styles */
+.chapterNavigation {
+  margin: 2rem auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.chapterNavContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.startReadingButton {
+  background-color:  #058fae !important;
+  color: white !important;
+  border: none;
+ 
+  padding: 6px 48px 6px 24px;
+  margin-top: -150px;
+  
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
+  z-index: 10;
+  width: 120px;
+  text-align: center;
+  
+}
+
+
+
+/* hover properly work kare */
+.startReadingButton:hover {
+  background-color: #058fae !important;
+  transform: translateY(-3px);
+  
+}
+
+/* error state */
+.startReadingButton.error {
+  background-color: #e74c3c !important;
+}
+
+/* disabled state */
+.startReadingButton:disabled {
+  background-color: #95a5a6 !important;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+
+
+
+
+
+.startReadingButton:hover {
+  background-color:  #058fae !important;
+}
+
+.dropdownToggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #058fae;
+  color: white;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  margin-top: -80px;
+  padding: 12px 10px;
+  cursor: pointer;
+  z-index: 11;
+  height: 100%;
+  font-size: 0.8rem;
+}
+
+.dropdownToggle:hover {
+  background-color:  #058fae;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  min-width: 100%;
+  margin-top: 0.5rem;
+  display: none;
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdownMenu.open {
+  display: block;
+}
+
+.dropdownItem {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #4c98e4;
+  display: block;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdownItem:focus {
+  background-color: #e3f2fd;
+  outline: 2px solid #62a8cc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chapterNavigation {
+    padding: 0 0.5rem;
+  }
+
+  .chapterNavContainer {
+    max-width: 100%;
+  }
+}
