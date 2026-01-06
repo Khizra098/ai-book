@@ -5,9 +5,9 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'AI Native Book',
+  title: 'Physically AI & Humanoid Robots Textbook',
   tagline: 'Building AI-Integrated Applications',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/ai%20robort.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -22,7 +22,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'ai-native-book', // Usually your GitHub org/user name.
+  organizationName: 'Khizra', // Usually your GitHub org/user name.
   projectName: 'ai-native-book', // Usually your repo name.
 
   onBrokenLinks: 'throw',
@@ -31,18 +31,27 @@ const config: Config = {
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+  // i18n: {
+  //   defaultLocale: 'en',
+  //   locales: ['en', 'es', 'fr', 'ur'], // Added Spanish, French, and Urdu
+  
+  //   path: '../i18n',
+  // },
+i18n: {
+  defaultLocale: 'en',
+  locales: ['en', 'ur'],
+  localeConfigs: {
+    en: {
+      label: 'English',
+    },
+    ur: {
+      label: 'اردو',
+      direction: 'rtl',
+    },
   },
+},
 
   plugins: [
-    [
-      './src/plugins/rag-chatbot-plugin',
-      {
-        // Configuration options for the RAG chatbot plugin
-      }
-    ]
   ],
   presets: [
     [
@@ -73,7 +82,10 @@ const config: Config = {
       title: 'AI Native Book',
       logo: {
         alt: 'AI Native Book Logo',
-        src: 'img/logo.svg',
+        src: 'img/ai robort.png', // actual filename contains a space in the repo
+        // Set explicit size so the PNG displays crisply on desktop & mobile
+        width: 36,
+        height: 36,
       },
       items: [
         {
@@ -83,7 +95,16 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/ai-native-book/ai-native-book',
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
+          to: '/login',
+          label: 'Log in',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/Khizra098',
           label: 'GitHub',
           position: 'right',
         },
@@ -96,8 +117,8 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Documentation',
-              to: '/docs/introduction',
+              label: 'LinkedIn',
+              to: 'https://www.linkedin.com/in/khizra-younus-1757742b6?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
             },
           ],
         },
@@ -105,12 +126,12 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Facebook',
+              href: 'https://www.facebook.com/share/17yqnGc9Bd/',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              href: 'https://discord.gg/fSksqKnC',
             },
           ],
         },
@@ -119,12 +140,12 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/Khizra098',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} AI Native Book. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} AI Native Book. Built with Khizra❤️`,
     },
     prism: {
       theme: prismThemes.github,

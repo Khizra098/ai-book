@@ -78,6 +78,8 @@ This plan aligns with the project constitution:
 - `UITheme`: A cohesive design system including dark mode colors (blues/cyans/metallic), typography (Inter/JetBrains Mono), and module-specific accent colors
 - `NavigationComponent`: Interface elements including sticky sidebar, progress tracking, hamburger menu, and enhanced search functionality
 - `ContentPresentation`: Features that enhance content display including code blocks with syntax highlighting/copy buttons, expandable sections, image zoom, and video embeds
+- `HomepageDesign`: The homepage visual elements including dark green background, humanoid robot image, "Physical AI & Humanoid Robotics" title, and green "Start Reading Book" button
+- `HomepageLayout`: The arrangement and positioning of elements on the homepage that maintains visual hierarchy and responsive behavior across devices
 
 ### API Contracts
 
@@ -96,6 +98,16 @@ This plan aligns with the project constitution:
 - Purpose: Update user progress for a specific section
 - Request: `{ moduleId: string, sectionId: string, completed: boolean }`
 - Response: `{ success: boolean, updatedProgress: object }`
+
+**Homepage API:**
+- Endpoint: `GET /api/homepage/config`
+- Purpose: Retrieve homepage configuration including background, images, and call-to-action settings
+- Response: `{
+    background: { color: string, image: string },
+    title: string,
+    ctaButton: { text: string, color: string, link: string },
+    navigation: { logo: string, links: array }
+  }`
 
 ### Quickstart Guide
 
@@ -117,7 +129,13 @@ This plan aligns with the project constitution:
    - Modify `docusaurus.config.js` theme settings for Inter/JetBrains Mono fonts
    - Add animation classes for hero sections
 
-3. **Implement Features:**
+3. **Implement Homepage Design:**
+   - Update `src/pages/index.tsx` with dark green background and humanoid robot image
+   - Add "Physical AI & Humanoid Robotics" title with prominent styling
+   - Create green "Start Reading Book" button as primary call-to-action
+   - Ensure responsive design for all homepage elements
+
+4. **Implement Features:**
    - Add sticky sidebar component with progress tracking
    - Implement Cmd/Ctrl+K search functionality
    - Create code block enhancements with syntax highlighting and copy buttons
@@ -129,19 +147,26 @@ This plan aligns with the project constitution:
 ### Feature Development Sequence
 
 **Week 1 - Priority P1 Features:**
-1. **Modern Robotics-Themed Visual Design with Dark Mode**
+1. **Modern Homepage with Dark Green Background and Humanoid Robot**
+   - Implement dark green background for homepage
+   - Add humanoid robot image prominently on homepage
+   - Create "Physical AI & Humanoid Robotics" title with prominent styling
+   - Implement green "Start Reading Book" button as primary call-to-action
+   - Ensure responsive design for all homepage elements
+
+2. **Modern Robotics-Themed Visual Design with Dark Mode**
    - Implement dark mode with blues/cyans/metallic accent colors
    - Set up Inter font for body text and JetBrains Mono for code
    - Create animated hero sections
    - Implement 4 module-specific accent colors
 
-2. **Enhanced Navigation and Search Experience**
+3. **Enhanced Navigation and Search Experience**
    - Create sticky sidebar with progress tracking
    - Implement enhanced search with Cmd/Ctrl+K shortcut
    - Ensure progress tracking works across site navigation
 
 **Week 1 - Priority P2 Features:**
-3. **Enhanced Content Presentation Features**
+4. **Enhanced Content Presentation Features**
    - Add syntax highlighting to code blocks
    - Implement copy-to-clipboard functionality for code blocks
    - Create expandable/collapsible sections
@@ -150,7 +175,7 @@ This plan aligns with the project constitution:
    - Add reading time estimates to pages
    - Create difficulty badges for content sections
 
-4. **Mobile-Responsive Design**
+5. **Mobile-Responsive Design**
    - Ensure mobile-responsive hamburger menu works properly
    - Verify all features work on mobile devices
    - Optimize touch interactions for mobile users
@@ -204,6 +229,11 @@ This plan aligns with the project constitution:
 
 ### Success Criteria Validation
 
+- [ ] Homepage displays dark green background that creates immersive robotics-themed environment
+- [ ] Humanoid robot image is prominently displayed on homepage and clearly visible
+- [ ] "Physical AI & Humanoid Robotics" title is prominently displayed and readable
+- [ ] Green "Start Reading Book" button is clearly visible and accessible as primary CTA
+- [ ] Homepage design elements are properly positioned and maintain visual hierarchy on all screen sizes
 - [ ] Dark mode and robotics-themed design achieve 85% positive user satisfaction rating
 - [ ] Four module-specific accent colors are implemented and accessible
 - [ ] Inter and JetBrains Mono typography improve readability by 15%

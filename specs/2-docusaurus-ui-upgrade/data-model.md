@@ -111,6 +111,26 @@
   - contentAnimations: boolean
 - **updatedAt**: date
 
+## Homepage Configuration
+
+### HomepageConfig
+- **id**: string
+- **background**: object
+  - color: string (e.g., "#0a3d2e" for dark green)
+  - image: string (path to humanoid robot image)
+  - imageAlt: string (alt text for accessibility)
+- **title**: string ("Physical AI & Humanoid Robotics")
+- **ctaButton**: object
+  - text: string ("Start Reading Book")
+  - color: string (e.g., green)
+  - link: string (URL for the button)
+  - style: object (CSS classes or styling properties)
+- **layout**: object
+  - order: number (position of elements)
+  - responsiveness: object (breakpoints and mobile behavior)
+- **createdAt**: date
+- **updatedAt**: date
+
 ## Module Configuration
 
 ### ModuleConfig

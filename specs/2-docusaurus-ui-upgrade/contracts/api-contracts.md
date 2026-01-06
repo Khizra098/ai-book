@@ -225,6 +225,37 @@
 }
 ```
 
+## Homepage API
+
+### Get Homepage Configuration
+- **Endpoint**: `GET /api/homepage/config`
+- **Purpose**: Retrieve homepage configuration including background, images, and call-to-action settings
+- **Authentication**: None
+- **Response**:
+```json
+{
+  "id": "string",
+  "background": {
+    "color": "string",
+    "image": "string",
+    "imageAlt": "string"
+  },
+  "title": "string",
+  "ctaButton": {
+    "text": "string",
+    "color": "string",
+    "link": "string",
+    "style": "object"
+  },
+  "layout": {
+    "order": "number",
+    "responsiveness": "object"
+  },
+  "createdAt": "date",
+  "updatedAt": "date"
+}
+```
+
 ## Module Configuration API
 
 ### Get Module Configurations

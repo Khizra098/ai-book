@@ -24,7 +24,7 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
+      title={` ${siteConfig.title}`}
       description="Physical AI & Humanoid Robotics Book">
       <React.Suspense fallback={<div>Loading...</div>}>
         <HomepageHeader />
