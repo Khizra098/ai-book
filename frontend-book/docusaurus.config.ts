@@ -99,7 +99,7 @@ i18n: {
           position: 'right',
         },
         {
-          to: '/login',
+          to: 'login',
           label: 'Log in',
           position: 'right',
         },
