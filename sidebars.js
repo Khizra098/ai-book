@@ -3,17 +3,46 @@
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   tutorialSidebar: [
-    'intro',
+    'index',
+    'introduction',
     {
       type: 'category',
-      label: 'ROS 2 for Humanoid Robotics',
+      label: 'Foundations',
       items: [
-        'ros2-nervous-system/introduction-to-ros2',
-        'ros2-nervous-system/ros2-communication',
-        'ros2-nervous-system/urdf-robot-structure',
+        'foundations/ai-first-architecture',
+        'foundations/data-centric-development',
+        'foundations/prompt-engineering'
       ],
     },
-    // Add more categories as needed
+    {
+      type: 'category',
+      label: 'Implementation',
+      items: [
+        'implementation/ai-assisted-generation',
+        'implementation/ai-enhanced-testing',
+        'implementation/ai-powered-debugging',
+        'implementation/model-integration'
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Advanced Topics',
+      items: [
+        'advanced/real-time-ai',
+        'advanced/ai-security',
+        'advanced/performance-optimization',
+        'advanced/monitoring-observability'
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Future Directions',
+      items: [
+        'future/emerging-tools',
+        'future/ethical-ai',
+        'future/conclusion'
+      ],
+    },
   ],
 };
 

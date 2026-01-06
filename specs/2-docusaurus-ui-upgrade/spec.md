@@ -58,7 +58,29 @@ Students and instructors in the Physical AI & Robotics course need a modern, vis
 
 ---
 
-### User Story 2 - Enhanced Navigation and Search Experience (Priority: P1)
+### User Story 2 - Modern Homepage with Dark Green Background and Humanoid Robot (Priority: P1)
+
+Students and instructors visiting the Physical AI & Humanoid Robotics website need a modern homepage featuring a dark green background with a humanoid robot image, a prominent title "Physical AI & Humanoid Robotics", and a green "Start Reading Book" button. They want an immersive first impression that clearly communicates the book's focus on physical AI and humanoid robotics with a visually striking design.
+
+**Why this priority**: The homepage is the first point of contact for users and sets the tone for the entire learning experience. A visually compelling homepage with the specific dark green background and humanoid robot imagery immediately establishes the physical AI and robotics theme while the clear call-to-action encourages engagement with the content.
+
+**Independent Test**: Users can visit the homepage and see the dark green background with humanoid robot image, the prominent title "Physical AI & Humanoid Robotics", and a green "Start Reading Book" button that encourages them to begin reading the book.
+
+**Acceptance Scenarios**:
+
+1. **Given** a user visits the homepage, **When** they load the page, **Then** they see a dark green background that creates an immersive robotics-themed environment.
+
+2. **Given** a user visits the homepage, **When** they view the page content, **Then** they see a prominent humanoid robot image that visually represents the book's focus on humanoid robotics.
+
+3. **Given** a user visits the homepage, **When** they view the page content, **Then** they see the clear title "Physical AI & Humanoid Robotics" that immediately communicates the book's subject matter.
+
+4. **Given** a user wants to begin reading the book, **When** they see the homepage, **Then** they can easily identify the green "Start Reading Book" button that serves as the primary call-to-action.
+
+5. **Given** a user accesses the homepage on different devices, **When** they view the page, **Then** they see responsive design that maintains the dark green background, humanoid robot image, title, and button properly scaled and positioned.
+
+---
+
+### User Story 3 - Enhanced Navigation and Search Experience (Priority: P1)
 
 Students and instructors need efficient navigation tools including a sticky sidebar with progress tracking and enhanced search functionality (Cmd/Ctrl+K) to quickly find and track their learning progress. They want to seamlessly navigate between modules while keeping track of their completion status and easily access any content through fast search.
 
@@ -76,7 +98,7 @@ Students and instructors need efficient navigation tools including a sticky side
 
 ---
 
-### User Story 3 - Enhanced Content Presentation Features (Priority: P2)
+### User Story 4 - Enhanced Content Presentation Features (Priority: P2)
 
 Students need enhanced content presentation features including code blocks with syntax highlighting and copy buttons, expandable sections, image zoom, video embeds, reading time estimates, and difficulty badges to improve their learning experience. They want to interact with content in multiple ways that support different learning styles and technical needs.
 
@@ -96,7 +118,7 @@ Students need enhanced content presentation features including code blocks with 
 
 ---
 
-### User Story 4 - Mobile-Responsive Design with Hamburger Menu (Priority: P2)
+### User Story 5 - Mobile-Responsive Design with Hamburger Menu (Priority: P2)
 
 Students and instructors need the site to work seamlessly on mobile devices with a responsive hamburger menu that provides full access to navigation features. They want to access course content and features on smartphones and tablets without losing functionality or experiencing poor usability.
 
@@ -151,6 +173,13 @@ Students and instructors need the site to work seamlessly on mobile devices with
 - **FR-017**: System MUST provide consistent user experience across different browsers and platforms
 - **FR-018**: System MUST optimize loading performance for all assets and components
 - **FR-019**: System MUST preserve existing URLs and navigation structure for backward compatibility
+- **FR-020**: System MUST implement homepage with dark green background (#0a3d2e or similar dark green) as specified
+- **FR-021**: System MUST display humanoid robot image prominently on the homepage to represent the book's focus
+- **FR-022**: System MUST show the title "Physical AI & Humanoid Robotics" prominently on the homepage
+- **FR-023**: System MUST include a green "Start Reading Book" button on the homepage as the primary call-to-action
+- **FR-024**: System MUST ensure the homepage has a cohesive design with the dark green background, humanoid robot image, title, and green button properly positioned
+- **FR-025**: System MUST implement responsive design for the homepage to work on all device sizes while maintaining the visual elements
+- **FR-026**: System MUST maintain the top navigation bar with logo and navigation links as specified in the requirements
 
 ### Key Entities *(include if feature involves data)*
 
@@ -159,6 +188,8 @@ Students and instructors need the site to work seamlessly on mobile devices with
 - **ContentPresentation**: Features that enhance content display including code blocks with syntax highlighting/copy buttons, expandable sections, image zoom, and video embeds
 - **LearningMetadata**: Information displayed with content including reading time estimates and difficulty badges
 - **ResponsiveBreakpoint**: A screen size threshold that triggers different layout behaviors including mobile hamburger menu activation
+- **HomepageDesign**: The homepage visual elements including dark green background, humanoid robot image, "Physical AI & Humanoid Robotics" title, and green "Start Reading Book" button
+- **HomepageLayout**: The arrangement and positioning of elements on the homepage that maintains visual hierarchy and responsive behavior across devices
 
 ## Success Criteria *(mandatory)*
 
@@ -187,6 +218,13 @@ Students and instructors need the site to work seamlessly on mobile devices with
 - **SC-016**: Cross-browser compatibility supports 95% of current browser market share for all new functionality
 - **SC-017**: User engagement time increases by 25% compared to the previous version after implementation of all features
 - **SC-018**: User task completion rate for finding specific content improves by 35% with enhanced search and navigation
+- **SC-019**: Homepage displays dark green background that creates the intended immersive robotics-themed environment on 100% of devices and browsers
+- **SC-020**: Humanoid robot image is prominently displayed on the homepage and clearly visible to users on 100% of devices
+- **SC-021**: The title "Physical AI & Humanoid Robotics" is prominently displayed on the homepage and clearly readable to users on 100% of devices
+- **SC-022**: The green "Start Reading Book" button is displayed on the homepage as the primary call-to-action and is clearly visible and accessible on 100% of devices
+- **SC-023**: Homepage design elements (dark green background, humanoid robot image, title, and green button) are properly positioned and maintain visual hierarchy on all screen sizes
+- **SC-024**: Homepage achieves 90% positive user satisfaction rating for visual appeal and thematic consistency related to the physical AI and humanoid robotics theme
+- **SC-025**: Homepage click-through rate to the main content increases by 40% compared to previous design after implementation of the dark green background, humanoid robot image, and clear call-to-action button
 
 ## Technical Accuracy Verification
 

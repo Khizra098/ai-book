@@ -115,6 +115,141 @@ code, pre, .code-block {
 
 ## Implementing Key Features
 
+### 0. Homepage Design Implementation
+
+1. **Update homepage component in `src/pages/index.tsx`:**
+```jsx
+import React from 'react';
+import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+import styles from './index.module.css';
+
+function HomepageHeader() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <header className={clsx('hero hero--primary', styles.heroBanner)} style={{background: '#0a3d2e', color: 'white'}}>
+      <div className="container">
+        <div className={styles.heroContent}>
+          <img
+            src="/img/humanoid-robot.png"
+            alt="Humanoid Robot"
+            className={styles.robotImage}
+          />
+          <h1 className={clsx('hero__title', styles.mainTitle)}>
+            Physical AI & Humanoid Robotics
+          </h1>
+          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <div className={styles.buttons}>
+            <Link
+              className={clsx('button button--secondary button--lg', styles.primaryButton)}
+              to="/docs/intro">
+              Start Reading Book
+            </Link>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default function Home() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Layout
+      title={`Hello from ${siteConfig.title}`}
+      description="Physical AI & Humanoid Robotics Book">
+      <HomepageHeader />
+    </Layout>
+  );
+}
+```
+
+2. **Update homepage CSS in `src/pages/index.module.css`:**
+```css
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: #0a3d2e !important; /* Dark green background */
+  color: white;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.robotImage {
+  max-width: 300px;
+  max-height: 300px;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+.mainTitle {
+  color: white !important;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 996px) {
+  .mainTitle {
+    font-size: 2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.primaryButton {
+  background-color: #4ade80 !important; /* Green color */
+  border-color: #4ade80 !important;
+  color: #1f2937 !important; /* Dark text for contrast */
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+}
+
+.primaryButton:hover {
+  background-color: #22c55e !important; /* Darker green on hover */
+  border-color: #22c55e !important;
+}
+
+@media screen and (max-width: 996px) {
+  .robotImage {
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .heroContent {
+    padding: 0 1rem;
+  }
+}
+```
+
 ### 1. Sticky Sidebar with Progress Tracking
 
 1. **Create progress tracking service in `src/utils/progress.js`:**

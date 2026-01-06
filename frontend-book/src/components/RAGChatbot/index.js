@@ -1,41 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './styles.css';
 
-const RAGChatbot = ({ bookId = 'default-book', apiEndpoint = 'http://localhost:8000/api/v1' }) => {
-  const [messages, setMessages] = useState([]);
+const RAGChatbot = ({ bookId = 'default-book', apiEndpoint: propApiEndpoint }) => {
+  const apiEndpoint = propApiEndpoint || (typeof window !== 'undefined' && window.RAG_CHATBOT_API_ENDPOINT) || process.env.RAG_CHATBOT_API_ENDPOINT || process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+  const [messages, setMessages] = useState([
+    { id: 1, text: "Hello! I'm your AI assistant. How can I help you with this book?", sender: 'bot', timestamp: new Date().toISOString() }
+  ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [sessionId, setSessionId] = useState(null);
-  const [selectedText, setSelectedText] = useState('');
-  const [contextMode, setContextMode] = useState('global'); // 'global' or 'selection'
+  const [isOpen, setIsOpen] = useState(false); // Chatbot is closed by default
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
 
-  // Initialize session when component mounts
-  useEffect(() => {
-    const initSession = async () => {
-      try {
-        const response = await fetch(`${apiEndpoint}/chat/sessions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ book_id: bookId }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setSessionId(data.session_id);
-        } else {
-          console.error('Failed to create session');
-        }
-      } catch (error) {
-        console.error('Error creating session:', error);
-      }
-    };
-
-    initSession();
-  }, [bookId, apiEndpoint]);
+  // No session initialization needed with the new API
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -47,7 +24,7 @@ const RAGChatbot = ({ bookId = 'default-book', apiEndpoint = 'http://localhost:8
   };
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim() || !sessionId || isLoading) return;
+    if (!inputMessage.trim() || isLoading) return;
 
     const userMessage = {
       id: Date.now(),
@@ -61,17 +38,41 @@ const RAGChatbot = ({ bookId = 'default-book', apiEndpoint = 'http://localhost:8
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${apiEndpoint}/chat/sessions/${sessionId}/messages`, {
+      // Use the new API endpoint structure with timeout and better error handling
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+      // Normalize the API endpoint to avoid duplicated slashes or '/api' segments
+      const normalizeApiBase = (endpoint) => {
+        if (!endpoint) return '';
+        // Remove trailing slashes
+        let base = endpoint.replace(/\/+$|\s+$/g, '');
+        // If someone provides a base that already includes '/api', strip it to avoid '/api/api' errors
+        base = base.replace(/\/api\s*$/i, '');
+        return base;
+      };
+
+      const baseUrl = normalizeApiBase(apiEndpoint);
+      const url = `${baseUrl}/api/query`;
+      console.debug('RAGChatbot: sending query to', url);
+
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: inputMessage,
-          selected_text: contextMode === 'selection' ? selectedText : null,
-          context_mode: contextMode,
+          query: inputMessage,
+          parameters: {
+            temperature: 0.7,
+            max_tokens: 1000,
+            top_p: 0.9
+          }
         }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         const data = await response.json();
@@ -80,27 +81,64 @@ const RAGChatbot = ({ bookId = 'default-book', apiEndpoint = 'http://localhost:8
           text: data.response,
           sender: 'bot',
           timestamp: data.timestamp,
-          retrievedChunks: data.retrieved_chunks,
+          sources: data.sources,
         };
         setMessages((prev) => [...prev, botMessage]);
       } else {
-        const errorData = await response.json();
+        // Provide a clearer message for common misconfiguration cases (404)
+        if (response.status === 404) {
+          const errorMessage = {
+            id: Date.now() + 1,
+            text: `Error: Server returned 404 Not Found for ${url}. Please verify the backend is running and that the configured API endpoint (${apiEndpoint}) is correct.`,
+            sender: 'bot',
+            timestamp: new Date().toISOString(),
+          };
+          setMessages((prev) => [...prev, errorMessage]);
+        } else {
+          const contentType = response.headers.get('content-type');
+          let errorData;
+
+          if (contentType && contentType.includes('application/json')) {
+            errorData = await response.json();
+          } else {
+            errorData = { error: await response.text() || 'Failed to get response' };
+          }
+
+          const errorMessage = {
+            id: Date.now() + 1,
+            text: `Error: ${errorData.error || errorData.detail || `Server returned ${response.status} ${response.statusText}`}`,
+            sender: 'bot',
+            timestamp: new Date().toISOString(),
+          };
+          setMessages((prev) => [...prev, errorMessage]);
+        }
+      }
+    } catch (error) {
+      if (error.name === 'AbortError') {
         const errorMessage = {
           id: Date.now() + 1,
-          text: `Error: ${errorData.detail || 'Failed to get response'}`,
+          text: 'Error: Request timed out. The server may be unavailable or processing your request is taking too long.',
+          sender: 'bot',
+          timestamp: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, errorMessage]);
+      } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        const errorMessage = {
+          id: Date.now() + 1,
+          text: 'Error: Failed to connect to the server. Please make sure the backend service is running and accessible. Check if the backend is running on the configured API endpoint.',
+          sender: 'bot',
+          timestamp: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, errorMessage]);
+      } else {
+        const errorMessage = {
+          id: Date.now() + 1,
+          text: `Error: ${error.message || 'Network error'}`,
           sender: 'bot',
           timestamp: new Date().toISOString(),
         };
         setMessages((prev) => [...prev, errorMessage]);
       }
-    } catch (error) {
-      const errorMessage = {
-        id: Date.now() + 1,
-        text: `Error: ${error.message || 'Network error'}`,
-        sender: 'bot',
-        timestamp: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -113,85 +151,62 @@ const RAGChatbot = ({ bookId = 'default-book', apiEndpoint = 'http://localhost:8
     }
   };
 
-  const handleTextSelection = () => {
-    const selectedText = window.getSelection().toString().trim();
-    if (selectedText) {
-      setSelectedText(selectedText);
-      setContextMode('selection');
-      // Optionally pre-fill the input with a question about the selection
-      if (!inputMessage) {
-        setInputMessage(`Explain this: "${selectedText.substring(0, 100)}${selectedText.length > 100 ? '...' : ''}"`);
-      }
-    }
+  const toggleChatbot = () => {
+    setIsOpen(!isOpen);
   };
 
-  const clearSelection = () => {
-    setSelectedText('');
-    setContextMode('global');
-  };
+  // When closed, show only the toggle button
+  if (!isOpen) {
+    return (
+      <button
+        className="chatbot-toggle-button"
+        onClick={toggleChatbot}
+        aria-label="Open chatbot"
+      >
+        💬
+      </button>
+    );
+  }
 
+  // When open, show the full chatbot
   return (
     <div className="rag-chatbot-container">
       <div className="rag-chatbot-header">
-        <h3>Book Assistant</h3>
-        <div className="context-mode-selector">
-          <button
-            className={`mode-btn ${contextMode === 'global' ? 'active' : ''}`}
-            onClick={() => setContextMode('global')}
-            title="Search entire book"
-          >
-            Global
-          </button>
-          <button
-            className={`mode-btn ${contextMode === 'selection' ? 'active' : ''}`}
-            onClick={handleTextSelection}
-            title="Use selected text only"
-          >
-            Selection
-          </button>
-        </div>
-        {selectedText && (
-          <div className="selected-text-preview">
-            <small>Context: "{selectedText.substring(0, 60)}..."</small>
-            <button onClick={clearSelection} className="clear-selection-btn">×</button>
-          </div>
-        )}
+        <h3>AI Assistant</h3>
+        <button
+          className="chatbot-close-button"
+          onClick={toggleChatbot}
+          aria-label="Close chatbot"
+        >
+          ×
+        </button>
       </div>
 
       <div className="rag-chatbot-messages">
-        {messages.length === 0 ? (
-          <div className="welcome-message">
-            <p>Hello! I'm your book assistant. Ask me questions about this book, and I'll answer based on the content.</p>
-            <p>You can:</p>
-            <ul>
-              <li>Ask general questions about the book</li>
-              <li>Select text and ask questions about it</li>
-              <li>Switch between global and selection modes</li>
-            </ul>
-          </div>
-        ) : (
-          messages.map((message) => (
-            <div
-              key={message.id}
-              className={`message ${message.sender === 'user' ? 'user-message' : 'bot-message'}`}
-            >
-              <div className="message-content">
-                <strong>{message.sender === 'user' ? 'You:' : 'Assistant:'}</strong>
-                <p>{message.text}</p>
-                {message.sender === 'bot' && message.retrievedChunks && message.retrievedChunks.length > 0 && (
-                  <details className="retrieved-context">
-                    <summary>Referenced content</summary>
-                    {message.retrievedChunks.slice(0, 2).map((chunk, index) => (
-                      <div key={index} className="retrieved-chunk">
-                        <p>{chunk.text}</p>
-                      </div>
-                    ))}
-                  </details>
-                )}
-              </div>
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`message ${message.sender === 'user' ? 'user-message' : 'bot-message'}`}
+          >
+            <div className="message-content">
+              <strong>{message.sender === 'user' ? 'You:' : 'Assistant:'}</strong>
+              <p>{message.text}</p>
+              {message.sender === 'bot' && message.sources && message.sources.length > 0 && (
+                <details className="retrieved-context">
+                  <summary>Sources</summary>
+                  {message.sources.map((source, index) => (
+                    <div key={index} className="source-chunk">
+                      <a href={source.url} target="_blank" rel="noopener noreferrer">
+                        {source.title}
+                      </a>
+                      <p>{source.content.substring(0, 100)}{source.content.length > 100 ? '...' : ''}</p>
+                    </div>
+                  ))}
+                </details>
+              )}
             </div>
-          ))
-        )}
+          </div>
+        ))}
         {isLoading && (
           <div className="message bot-message">
             <div className="message-content">
@@ -215,11 +230,11 @@ const RAGChatbot = ({ bookId = 'default-book', apiEndpoint = 'http://localhost:8
           onKeyDown={handleKeyDown}
           placeholder="Ask a question about this book..."
           rows="2"
-          disabled={isLoading || !sessionId}
+          disabled={isLoading}
         />
         <button
           onClick={handleSendMessage}
-          disabled={!inputMessage.trim() || !sessionId || isLoading}
+          disabled={!inputMessage.trim() || isLoading}
           className="send-button"
         >
           {isLoading ? 'Sending...' : 'Send'}

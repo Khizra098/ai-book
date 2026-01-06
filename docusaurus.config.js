@@ -7,10 +7,10 @@ const {themes} = require('prism-react-renderer');
 const config = {
   title: 'AI Native Book',
   tagline: 'Building AI-Integrated Applications',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/ai robort.png',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://ai-book-kohl-seven.vercel.app/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -28,7 +28,7 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ur'],
   },
 
   presets: [
@@ -60,7 +60,7 @@ const config = {
         title: 'AI Native Book',
         logo: {
           alt: 'AI Native Book Logo',
-          src: 'img/logo.svg',
+          src: '/img/ai robort.png',
         },
         items: [
           {
@@ -68,6 +68,10 @@ const config = {
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Docs',
+          },
+          {
+            type: 'localeDropdown',
+            position: 'right',
           },
           {
             href: 'https://github.com/ai-native-book/ai-native-book',
@@ -84,7 +88,7 @@ const config = {
             items: [
               {
                 label: 'Documentation',
-                to: '/docs/intro',
+                to: '/docs/introduction',
               },
             ],
           },

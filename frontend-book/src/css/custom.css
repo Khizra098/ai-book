@@ -35,12 +35,110 @@
   bottom: 20px !important;
   right: 20px !important;
   z-index: 1000 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important; */
   border-radius: 12px !important;
   overflow: visible !important;
+}
+
+#rag-chatbot-container.chatbot-closed {
+  box-shadow: none !important;
+  display: none !important;
 }
 
 /* Adjust main content to make space for chatbot */
 .main-wrapper {
   padding-bottom: 60px; /* Space for the chatbot when it's visible */
+}
+
+/* User menu styles */
+.navbar__user-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  border-radius: 50%;
+  background-color: var(--ifm-color-primary);
+  color: white;
+  font-size: 14px;
+}
+
+.navbar__item a.navbar__link {
+  display: inline-block;
+  padding: var(--ifm-navbar-item-padding-vertical) var(--ifm-navbar-item-padding-horizontal);
+  text-decoration: none;
+}
+
+/* Fix for dropdown hover issues - prevent dropdown from disappearing when moving cursor */
+.dropdown {
+  position: relative;
+}
+
+/* Remove gap between dropdown trigger and menu to allow smooth cursor movement */
+.dropdown__menu {
+  margin-top: 0 !important;
+  top: 100% !important;
+  left: auto !important;
+  right: 0 !important;
+  min-width: 160px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.5rem;
+  z-index: 1000 !important;
+  background-color: var(--ifm-background-surface-color);
+}
+
+/* Ensure dropdown menu stays visible when moving cursor between trigger and menu */
+.dropdown:hover .dropdown__menu,
+.dropdown--active .dropdown__menu,
+.dropdown--show .dropdown__menu {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Make sure dropdown menu items are clickable */
+.dropdown__link {
+  cursor: pointer;
+  user-select: none;
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+}
+
+.dropdown__link:hover {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+/* Ensure no overflow hidden issues affect dropdown visibility */
+.dropdown,
+.navbar__item {
+  overflow: visible !important;
+}
+
+/* Specific fix for locale dropdown to prevent disappearing on hover */
+.navbar__item.dropdown .navbar__link {
+  cursor: pointer;
+}
+
+/* Ensure dropdown stays open when clicking inside */
+.dropdown__menu {
+  pointer-events: auto;
+}
+
+/* Mobile-specific fixes for dropdowns */
+@media (max-width: 996px) {
+  .dropdown__menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: auto !important;
+    min-width: 200px;
+    z-index: 1000 !important;
+  }
+
+  .dropdown--right .dropdown__menu {
+    left: auto !important;
+    right: 0 !important;
+  }
 }
