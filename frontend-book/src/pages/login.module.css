@@ -1,0 +1,34 @@
+.loginContainer {
+  padding: 2rem 0;
+}
+
+.loginCard {
+  margin: 2rem 0;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #666;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 10px;
+}
+
+.signupLink {
+  text-align: center;
+}
+
+.loginRow {
+  margin-top: 2rem;
+}
