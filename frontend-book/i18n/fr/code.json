@@ -1,0 +1,138 @@
+{
+  "theme.ErrorPageContent.title": {
+    "message": "Cette page a planté",
+    "description": "The title of the fallback page when the page crashed"
+  },
+  "theme.ErrorPageContent.caption": {
+    "message": "Cette page a planté",
+    "description": "The caption of the fallback page when the page crashed"
+  },
+  "theme.NotFound.title": {
+    "message": "Page Non Trouvée",
+    "description": "The title of the 404 page"
+  },
+  "theme.NotFound.p1": {
+    "message": "Nous n'avons pas pu trouver ce que vous recherchiez.",
+    "description": "The first paragraph of the 404 page"
+  },
+  "theme.NotFound.p2": {
+    "message": "Veuillez contacter le propriétaire du site qui vous a lié à l'URL d'origine et lui faire savoir que son lien est cassé.",
+    "description": "The 2nd paragraph of the 404 page"
+  },
+  "theme.admonition.note": {
+    "message": "note",
+    "description": "The default label used for the Note admonition (:::note)"
+  },
+  "theme.admonition.tip": {
+    "message": "astuce",
+    "description": "The default label used for the Tip admonition (:::tip)"
+  },
+  "theme.admonition.danger": {
+    "message": "danger",
+    "description": "The default label used for the Danger admonition (:::danger)"
+  },
+  "theme.admonition.info": {
+    "message": "information",
+    "description": "The default label used for the Info admonition (:::info)"
+  },
+  "theme.admonition.caution": {
+    "message": "attention",
+    "description": "The default label used for the Caution admonition (:::caution)"
+  },
+  "theme.NavBar.navAriaLabel": {
+    "message": "Navigation principale",
+    "description": "The ARIA label for the main navigation"
+  },
+  "theme.docs.sidebar.navAriaLabel": {
+    "message": "Navigation du document",
+    "description": "The ARIA label for the sidebar navigation in docs"
+  },
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
+    "message": "Fermer la barre latérale",
+    "description": "The ARIA label for close sidebar button"
+  },
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
+    "message": "Basculer la barre latérale",
+    "description": "The ARIA label for toggle sidebar button"
+  },
+  "theme.docs.sidebar.expandButtonTitle": {
+    "message": "Développer la barre latérale",
+    "description": "The ARIA label and title for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.expandButtonAriaLabel": {
+    "message": "Développer la barre latérale",
+    "description": "The ARIA label and title for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapseButtonTitle": {
+    "message": "Réduire la barre latérale",
+    "description": "The title for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapseButtonAriaLabel": {
+    "message": "Réduire la barre latérale",
+    "description": "The ARIA label for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.docSidebarItems.expandAllButtonTitle": {
+    "message": "Tout développer",
+    "description": "The ARIA label and title for expand all button of doc sidebar"
+  },
+  "theme.docs.sidebar.docSidebarItems.collapseAllButtonTitle": {
+    "message": "Tout réduire",
+    "description": "The ARIA label and title for collapse all button of doc sidebar"
+  },
+  "theme.docs.sidebar.pruneSidebarButtonAriaLabel": {
+    "message": "Afficher moins de contenu",
+    "description": "The ARIA label for the button that collapses the sidebar"
+  },
+  "theme.docs.sidebar.pruneSidebarButtonTitle": {
+    "message": "Afficher moins de contenu",
+    "description": "The title for the button that collapses the sidebar"
+  },
+  "theme.docs.sidebar.responsiveCloseButtonLabel": {
+    "message": "Fermer le menu",
+    "description": "The ARIA label for close button of the responsive sidebar"
+  },
+  "theme.docs.sidebar.responsiveOpenButtonLabel": {
+    "message": "Ouvrir le menu",
+    "description": "The ARIA label for open button of the responsive sidebar"
+  },
+  "theme.common.skipToMainContent": {
+    "message": "Aller au contenu principal",
+    "description": "The ARIA label for the button that allows skipping to main content"
+  },
+  "theme.common.editThisPage": {
+    "message": "Modifier cette page",
+    "description": "The link label to edit the current page"
+  },
+  "theme.common.headingLinkTitle": {
+    "message": "Lien direct vers l'en-tête",
+    "description": "Title for link to heading"
+  },
+  "theme.lastUpdated.atDate": {
+    "message": " le",
+    "description": "The words used to describe on which date a page was last updated"
+  },
+  "theme.lastUpdated.byUser": {
+    "message": " par",
+    "description": "The words used to describe by who the page was last updated"
+  },
+  "theme.lastUpdated.lastUpdatedAtBy": {
+    "message": "Dernière mise à jour{atDate}{date}{byUser}{user}",
+    "description": "The sentence used to display when a page was last updated, and by who"
+  },
+  "theme.navbar.mobileLanguageDropdown.label": {
+    "message": "Langues",
+    "description": "The label for the mobile language switcher dropdown"
+  },
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
+    "message": "Menu principal",
+    "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
+  },
+  "theme.navbar.mobileVersionsDropdown.label": {
+    "message": "Versions",
+    "description": "The label for the navbar versions dropdown on mobile view"
+  },
+  "theme.navbar.sidebarMenuLabel": {
+    "message": "Menu principal",
+    "description": "The ARIA label for the main sidebar menu"
+  }
+}
