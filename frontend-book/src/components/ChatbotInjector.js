@@ -72,18 +72,18 @@ import React, { useState } from 'react';
 function RAGChatbot({ bookId, apiEndpoint }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const endpoint = apiEndpoint || 'https://khizra098-book-backend.hf.space'; // Hugging Face backend
+
+  // Ensure no trailing slash at the end of endpoint
+  const endpoint = (apiEndpoint || 'https://khizra098-book-backend.hf.space').replace(/\/+$/, '');
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    // Add user message to chat
     const userMessage = input;
     setMessages(prev => [...prev, { sender: 'user', text: userMessage }]);
     setInput('');
 
     try {
-      // Call backend API
       const response = await fetch(`${endpoint}/api/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -96,8 +96,7 @@ function RAGChatbot({ bookId, apiEndpoint }) {
 
       const data = await response.json();
 
-      // Add bot response to chat
-      const botMessage = data.answer || 'No response';
+      const botMessage = data.response || 'No response';
       setMessages(prev => [...prev, { sender: 'bot', text: botMessage }]);
 
     } catch (error) {
@@ -107,7 +106,10 @@ function RAGChatbot({ bookId, apiEndpoint }) {
   };
 
   const handleKeyPress = e => {
-    if (e.key === 'Enter') sendMessage();
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   return (
