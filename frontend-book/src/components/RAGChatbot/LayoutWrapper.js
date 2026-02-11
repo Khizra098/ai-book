@@ -33,12 +33,13 @@ export default function LayoutWrapper({ children, ...props }) {
 
         // Create the chatbot wrapper component
         
-       const RAGChatbotWrapper = () => (
-        <RAGChatbot
-        bookId={location.pathname.replace(/\//g, '_') || 'default_book'}
-        apiEndpoint={(process.env.RAG_CHATBOT_API_ENDPOINT || 'https://khizra098-book-backend.hf.space').replace(/\/+$/, '')}
-       />
-       );
+      const RAGChatbotWrapper = () => (
+      <RAGChatbot
+      bookId={location.pathname.replace(/\//g, '_') || 'default_book'}
+      apiEndpoint="https://khizra098-book-backend.hf.space"
+      />
+      );
+
 
 
         // Render the chatbot
