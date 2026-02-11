@@ -251,9 +251,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './styles.css';
 
-const RAGChatbot = ({ bookId = 'default-book', apiEndpoint: propApiEndpoint }) => {
-  // ✅ Hardcoded HF backend URL to avoid connection issues
-  const apiEndpoint = propApiEndpoint || 'https://khizra098-book-backend.hf.space';
+const RAGChatbot = ({ bookId = 'default-book' }) => {
+  const apiEndpoint = 'https://khizra098-book-backend.hf.space';
+
 
   const [messages, setMessages] = useState([
     { id: 1, text: "Hello! I'm your AI assistant. How can I help you with this book?", sender: 'bot', timestamp: new Date().toISOString() }
