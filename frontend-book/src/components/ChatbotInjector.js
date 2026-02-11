@@ -74,7 +74,9 @@ function RAGChatbot({ bookId, apiEndpoint }) {
   const [input, setInput] = useState('');
 
   // Ensure no trailing slash at the end of endpoint
-  const endpoint = (apiEndpoint || 'https://khizra098-book-backend.hf.space').replace(/\/+$/, '');
+  // const endpoint = (apiEndpoint || 'https://khizra098-book-backend.hf.space').replace(/\/+$/, '');
+  const endpoint = 'https://khizra098-book-backend.hf.space';
+
 
   const sendMessage = async () => {
     if (!input.trim()) return;
